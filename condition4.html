@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: white; <--#f1f1f1 -->
+}
+
+#myCanvas {
+    position:relative;
+    background-color: white;
+}
+.dashboard div{
+    color: blue;
+    font-size: 25px;
+}
+
+</style>
+
+
+</head>
+<body onload="startGame()">
+
+
+<canvas id="myCanvas" width="480" height="270"
+style="border:1px solid #c3c3c3;">
+</canvas>
+
+
+<script>
+
+var myGamePiece;
+var myObstacles = [];
+var myScore;
+
+function startGame() {
+    myGamePiece = new component(30, 30, "runstickfigure.jpg", 10, 120, "image");
+    myGamePiece.gravity = 0.10;
+    myScore = new component("25px", "Arial", "blue", 200, 40, "text");
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        },
+        clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+       
+}
+
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    if (type == "image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
+    this.score = 0;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;
+    this.gravity = 0;
+    this.gravitySpeed = 0;
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (type == "image") {
+            ctx.drawImage(this.image, 
+                this.x, 
+                this.y,
+                this.width, this.height);
+        } else if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        }
+        else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+
+    }
+    this.newPos = function() {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+        this.hitBottom();
+    }
+    this.hitBottom = function() {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {
+            this.y = rockbottom;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.crashWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+}
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (myGamePiece.crashWith(myObstacles[i])) {
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+        x = myGameArea.canvas.width;
+        minHeight = 20;
+        maxHeight = 200;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 50;
+        maxGap = 200;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        myObstacles.push(new component(10, height, "green", x, 0));
+        myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+    }
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].x += -1;
+        myObstacles[i].update();
+    }
+    myScore.text="Time: " + myGameArea.frameNo/50; // this makes time equivalent to seconds.
+    myScore.update();
+    myGamePiece.newPos();
+    myGamePiece.update();
+}
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+
+function accelerate(n) {
+    myGamePiece.gravity = n;
+}
+
+function restart() {
+    document.location.reload();
+    startGame ();
+}
+</script>
+
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+
+<script>
+
+var canvas1 = document.getElementById("myCanvas");
+var ctx1 = canvas1.getContext("2d");
+ctx1.font = "20px Arial";
+ctx1.fillStyle = "blue";
+ctx1.fillText("Remember the old you!!!",130,40);
+ctx1.fillText("Keep moving forward in weight maintenance!",60,70);
+var xpos   = 2000;
+var ypos   = 4000;
+
+var img = new Image();
+img.src = "runstickfigure.jpg";
+img.id  = "animate";
+img.width ="50";
+img.height ="50";
+
+
+img.onload = function move(){
+  //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);  // clear canvas
+  ctx1.scale(.05,.05);
+  ctx1.drawImage(img, xpos, ypos);                       // draw image at current position
+    
+   var steps =80; // steps to move on each click
+
+
+
+ //need an event listener...onclick of ACCELERATE (nope...embedded data).  Attempt at 'listening..'
+$('.js-clicker').click(function(event) { //onclick want to move 1000 pixels. 
+      console.log('i am hit now!!!')
+ function redraw() { 
+ ctx1.scale(.25,.25);
+ ctx1.clearRect(xpos-steps,ypos,xpos-steps +50,ypos+50); // erase old image.
+  ctx1.drawImage(img, xpos, ypos); // draw image at current position
+  ctx1.scale(4,4);
+  xpos += steps;}
+
+  if (xpos < 10000) {
+    requestAnimationFrame(redraw); // I want to loop
+  } 
+   
+   })  
+
+}
+
+
+make_second();
+
+function make_second()
+{
+var img2 = new Image();
+img2.src = "fatstickfigure.jpg";
+img2.width ="1000";
+img2.height ="1000";
+  img2.onload = function(){
+    ctx1.scale(3.95,3.95); // woman is .5, .5
+    ctx1.drawImage(img2, 50, 1025); // woman is 0,420
+  }
+}
+
+//This works only when image is in the document.
+//var pos = 2000; //starting position of run image.
+//function myMove() {
+   // pos+=50; 
+   // ctx.getElementById("animate").style.left = "100px"; //document.getElement...draws in document not canvas.
+   // }
+  
+</script>
+
+
+<br>
+<button class="js-clicker" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
+<p>Use the ACCELERATE button to stay in the air. Avoid the obstacles!</p>
+<p>Every 15 seconds you stay in the air is equivalent to one month of weight <br /> maintenance.</p>
+
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+<script>
+function handleClicks() {
+    console.log('i am in HANDLECLICKS')
+  let months = 0;
+  
+  // this line sets the inner text
+  // of the `.js-click-counter`
+  // element to the current value
+  // of `months` (which is 0)
+  $('.js-click-counter').text(months);
+  
+  // this line says when the
+  // `.js-clicker` element is
+  // clicked, run the instructions
+  // inside the anonymous function
+  // (that is, the instructions 
+  // between the {...} brackets).
+  $('.js-clicker').click(function(event) {
+    console.log('i am hit!!!')
+    
+    // any time the user clicks, 
+    // we add 1 to the value of 
+    // months ...
+    if (myGameArea.frameNo/50 > 15 && myGameArea.frameNo/50 < 30) {
+        months =1;
+    } if (myGameArea.frameNo/50 > 30 && myGameArea.frameNo/50 < 45) {
+        months =2;
+    } if (myGameArea.frameNo/50 > 45 && myGameArea.frameNo/50 < 60) {
+        months =3;
+    } if (myGameArea.frameNo/50 > 60) {
+        months =4;
+    }
+    
+    // ...and display the updated
+    // click count in the
+    // `.js-click-count` element.
+    $('.js-click-counter').text(months);
+  });
+}
+
+// this code just says that when
+// the browser is done loading the
+// page, it should run the
+// `handleClicks` function
+// we've defined above.
+$(handleClicks);
+
+</script>
+
+<section class="dashboard">
+        <div>Maintenance: <strong><span class="js-click-counter">0</span> months</strong></div>
+</section>
+
+<button onclick="restart()">Restart</button>
+
+</body>
+</html>
