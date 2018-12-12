@@ -149,7 +149,8 @@ function updateGameArea() {
         myObstacles[i].x += -1;
         myObstacles[i].update();
     }
-    myScore.text="Time: " + (myGameArea.frameNo/66.7); // this makes time equivalent to seconds.
+    var num = (myGameArea.frameNo/66.7).toFixed(2)
+    myScore.text="Time: " + num; // this makes time equivalent to seconds.
     myScore.update();
     myGamePiece.newPos();
     myGamePiece.update();
@@ -273,29 +274,29 @@ function handleClicks() {
     // any time the user clicks, 
     // we add 1 to the value of 
     // months ...
-    if (myGameArea.frameNo/50 > 0 && myGameArea.frameNo/50 < 15) {
+    if (num > 0 && num < 15) {
         months =1;
-    } if (myGameArea.frameNo/50 > 15 && myGameArea.frameNo/50 < 30) {
+    } if (num > 15 && num < 30) {
         months =2;
-    } if (myGameArea.frameNo/50 > 30 && myGameArea.frameNo/50 < 45) {
+    } if (num > 30 && num < 45) {
         months =3;
-    } if (myGameArea.frameNo/50 > 45 && myGameArea.frameNo/50 < 60) {
+    } if (num > 45 && num < 60) {
         months =4;
-    } if (myGameArea.frameNo/50 > 60 && myGameArea.frameNo/50 < 75) {
+    } if (num > 60 && num < 75) {
         months =5;
-    } if (myGameArea.frameNo/50 > 75 && myGameArea.frameNo/50 < 90) {
+    } if (num > 75 && num < 90) {
         months =6;
-    } if (myGameArea.frameNo/50 > 90 && myGameArea.frameNo/50 < 105) {
+    } if (num > 90 && num < 105) {
         months =7;
-    } if (myGameArea.frameNo/50 > 105 && myGameArea.frameNo/50 < 120) {
+    } if (num > 105 && num < 120) {
         months =8;
-    } if (myGameArea.frameNo/50 > 120 && myGameArea.frameNo/50 < 135) {
+    } if (num > 120 && num < 135) {
         months =9;
-    } if (myGameArea.frameNo/50 > 135 && myGameArea.frameNo/50 < 150) {
+    } if (num> 135 && num < 150) {
         months =10;
-    } if (myGameArea.frameNo/50 > 150 && myGameArea.frameNo/50 < 165) {
+    } if (num > 150 && num < 165) {
         months =11;
-    } if (myGameArea.frameNo/50 > 165) {
+    } if (num > 165) {
         months =12;
     }
     
