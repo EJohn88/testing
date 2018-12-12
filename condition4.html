@@ -273,14 +273,30 @@ function handleClicks() {
     // any time the user clicks, 
     // we add 1 to the value of 
     // months ...
-    if (myGameArea.frameNo/50 > 15 && myGameArea.frameNo/50 < 30) {
+    if (myGameArea.frameNo/50 > 0 && myGameArea.frameNo/50 < 15) {
         months =1;
-    } if (myGameArea.frameNo/50 > 30 && myGameArea.frameNo/50 < 45) {
+    } if (myGameArea.frameNo/50 > 15 && myGameArea.frameNo/50 < 30) {
         months =2;
-    } if (myGameArea.frameNo/50 > 45 && myGameArea.frameNo/50 < 60) {
+    } if (myGameArea.frameNo/50 > 30 && myGameArea.frameNo/50 < 45) {
         months =3;
-    } if (myGameArea.frameNo/50 > 60) {
+    } if (myGameArea.frameNo/50 > 45 && myGameArea.frameNo/50 < 60) {
         months =4;
+    } if (myGameArea.frameNo/50 > 60 && myGameArea.frameNo/50 < 75) {
+        months =5;
+    } if (myGameArea.frameNo/50 > 75 && myGameArea.frameNo/50 < 90) {
+        months =6;
+    } if (myGameArea.frameNo/50 > 90 && myGameArea.frameNo/50 < 105) {
+        months =7;
+    } if (myGameArea.frameNo/50 > 105 && myGameArea.frameNo/50 < 120) {
+        months =8;
+    } if (myGameArea.frameNo/50 > 120 && myGameArea.frameNo/50 < 135) {
+        months =9;
+    } if (myGameArea.frameNo/50 > 135 && myGameArea.frameNo/50 < 150) {
+        months =10;
+    } if (myGameArea.frameNo/50 > 150 && myGameArea.frameNo/50 < 165) {
+        months =11;
+    } if (myGameArea.frameNo/50 > 165) {
+        months =12;
     }
     
     // ...and display the updated
