@@ -150,7 +150,7 @@ function updateGameArea() {
         myObstacles[i].update();
     }
     var num = parseFloat((myGameArea.frameNo/66.7).toFixed(2));
-    console.log (typeof num);
+    //console.log (typeof num);
     myScore.text="Time: " + num; // this makes time equivalent to seconds.
     myScore.update();
     myGamePiece.newPos();
@@ -275,6 +275,7 @@ function handleClicks() {
     // any time the user clicks, 
     // we add 1 to the value of 
     // months ...
+    var num = parseFloat((myGameArea.frameNo/66.7).toFixed(2));
     if (num > 0 && num < 15) {
         months =1;
     } if (num > 15 && num < 30) {
